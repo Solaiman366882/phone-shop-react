@@ -4,7 +4,6 @@ import Category from "../../components/Category/Category";
 const Home = () => {
 
     const phones = useLoaderData();
-    console.log(phones);
 
     return (
         <div>

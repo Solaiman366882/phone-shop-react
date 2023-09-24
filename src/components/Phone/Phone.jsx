@@ -1,7 +1,8 @@
 import PropTypes from "prop-types";
+import { NavLink } from "react-router-dom";
 const Phone = ({phone}) => {
 
-    const {id,phone_name,image,brand_name,price,rating} = phone;
+    const {id,phone_name,image,brand_name,price,rating} = phone || {};
 
     return (
         <div className="relative flex w-full flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-md border border-rose-300">
@@ -30,12 +31,14 @@ const Phone = ({phone}) => {
           </div>
         </div>
         <div className="p-6 pt-0">
-          <button
-            className="block w-full select-none rounded-lg bg-gray-400 text-white py-3 px-6 text-center align-middle font-sans text-xs font-bold uppercase text-blue-gray-900 transition-all hover:scale-105 focus:scale-105 focus:opacity-[0.85] active:scale-100 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-            type="button"
-          >
-            Add to Cart
-          </button>
+          <NavLink to={`/phones/${id}`}>
+            <button
+              className="block w-full select-none rounded-lg bg-gray-400 text-white py-3 px-6 text-center align-middle font-sans text-xs font-bold uppercase text-blue-gray-900 transition-all hover:scale-105 focus:scale-105 focus:opacity-[0.85] active:scale-100 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+              type="button"
+            >
+              Show Details
+            </button>
+          </NavLink>
         </div>
       </div>
     );
