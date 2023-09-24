@@ -6,7 +6,7 @@ const MainLayout = () => {
     return (
         <div>
             <Header></Header>
-            <main className="min-h-[70vh] justify-center items-center flex">
+            <main className="min-h-[70vh]">
                 <Outlet></Outlet>
             </main>
         </div>
