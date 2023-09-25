@@ -1,18 +1,60 @@
 import { useEffect, useState } from "react";
 import { useLoaderData, useParams } from "react-router-dom";
+import Swal from 'sweetalert2'
 
 const PhoneDetails = () => {
-    const {id} = useParams();
+    const params = useParams();
 
     const phones = useLoaderData();
     const[phone,setPhone] = useState({});
     // const SelectedPhone = {};
     useEffect(() =>{
-         const SelectedPhone =  phones.find(phone => phone.id===id);
+         const SelectedPhone =  phones.find(phone => phone.id===params.id);
          setPhone(SelectedPhone);
+         console.log(params.id);
 
-    },[id,phone]);
-    const {phone_name,image,brand_name,price,rating} = phone || {};
+    },[params.id,phone]);
+
+    const {id,phone_name,image,brand_name,price,rating} = phone || {};
+
+    const handleAddToFavorite = () => {
+
+        const totalFavoritePhone = [];
+
+        const favoritePhones = JSON.parse(localStorage.getItem('favPhones'));
+        console.log(favoritePhones);
+
+        if(!favoritePhones){
+            totalFavoritePhone.push(phone);
+            localStorage.setItem('favPhones',JSON.stringify(totalFavoritePhone));
+            Swal.fire(
+                'Good job!',
+                'Successfully added the product',
+                'success'
+              )
+        }
+        else{
+            const isExist = favoritePhones?.find(item => item.id === id)
+            if(isExist){
+                console.log(phone.id);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Already Exists!',
+                    footer: '<a href="">Why do I have this issue?</a>'
+                  })
+            }
+            else{
+                totalFavoritePhone.push(...favoritePhones,phone);
+                localStorage.setItem('favPhones',JSON.stringify(totalFavoritePhone));
+                Swal.fire(
+                    'Good job!',
+                    'Successfully added the product',
+                    'success'
+                  )
+            }
+        }
+    }
 
     return (
         <div className="h-[80vh] w-full flex justify-center items-center">
@@ -49,6 +91,7 @@ const PhoneDetails = () => {
                     <button
                         className="flex select-none items-center gap-2 rounded-lg py-3 px-6 text-center align-middle font-sans text-xs font-bold uppercase text-pink-500 transition-all hover:bg-pink-500/10 active:bg-pink-500/30 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                         type="button"
+                        onClick={handleAddToFavorite}
                     >
                         Add to Favorite
                         <svg
